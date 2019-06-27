@@ -11,18 +11,18 @@ import kotlin.experimental.and
  * Generate a random hex string
  */
 fun randomString(): String =
-    (1..40).map {
-      ("${('a'..'z').random()}${('A'..'Z').random()}${(0..9).random()}").random()
-    }.joinToString("").toByteArray().toHexString()
+  (1..40).map {
+    ("${('a'..'z').random()}${('A'..'Z').random()}${(0..9).random()}").random()
+  }.joinToString("").toByteArray().toHexString()
 
 /**
  * Encodes the String to Base64
  */
 fun String.toBase64(): String =
-    Base64.encodeToString(this.toByteArray(), Base64.DEFAULT)
+  Base64.encodeToString(this.toByteArray(), Base64.DEFAULT)
 
 fun String.fromBase64(): String =
-    Base64.decode(this.toByteArray(), Base64.DEFAULT).toString(Charsets.UTF_8)
+  Base64.decode(this.toByteArray(), Base64.DEFAULT).toString(Charsets.UTF_8)
 
 /**
  * Encrypts the String using HmacSHA256
