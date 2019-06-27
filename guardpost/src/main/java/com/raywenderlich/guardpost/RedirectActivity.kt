@@ -74,7 +74,7 @@ internal class RedirectActivity : AppCompatActivity() {
 
   private fun handleLogoutResult() {
     val resultIntent = Intent().apply {
-      putExtra(EXTRA_RESULT, true)
+      putExtra(EXTRA_RESULT, SSOUser())
     }
     setResult(Activity.RESULT_OK, resultIntent)
     finish()

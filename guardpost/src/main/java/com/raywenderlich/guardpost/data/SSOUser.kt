@@ -9,12 +9,13 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class SSOUser(
-  val externalId: String?,
-  val email: String?,
-  val username: String?,
-  val avatarUrl: String?,
-  val name: String?,
-  val token: String?
+  val externalId: String? = null,
+  val email: String? = null,
+  val username: String? = null,
+  val avatarUrl: String? = null,
+  val name: String? = null,
+  val token: String? = null,
+  val loggedIn: Boolean = false
 ) : Parcelable {
 
   constructor(responseUri: Uri) : this(
@@ -23,6 +24,7 @@ data class SSOUser(
     responseUri.getQueryParameter("username"),
     responseUri.getQueryParameter("avatar_url"),
     responseUri.getQueryParameter("name")?.replace('+', ' ')?.trim(),
-    responseUri.getQueryParameter("token")
+    responseUri.getQueryParameter("token"),
+    true
   )
 }

@@ -39,7 +39,7 @@ internal data class SSORequest(
   fun buildLogoutUri(): Uri? {
     return Uri.Builder().path(endpoint)
       .scheme("https")
-      .appendQueryParameter("return_url", callbackUrl)
+      .appendQueryParameter("redirect_uri", callbackUrl)
       .build()
   }
 
