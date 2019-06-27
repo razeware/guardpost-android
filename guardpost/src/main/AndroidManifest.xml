@@ -17,6 +17,17 @@
           android:path="@string/redirect_path"
           android:scheme="@string/redirect_scheme" />
       </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+          android:host="@string/redirect_host"
+          android:path="@string/redirect_path_logout"
+          android:scheme="@string/redirect_scheme" />
+      </intent-filter>
     </activity>
   </application>
 

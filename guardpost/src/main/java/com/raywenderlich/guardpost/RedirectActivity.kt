@@ -1,12 +1,15 @@
 package com.raywenderlich.guardpost
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.raywenderlich.guardpost.data.Result
 import com.raywenderlich.guardpost.data.SSOUser
 
+@SuppressLint("GoogleAppIndexingApiWarning")
 internal class RedirectActivity : AppCompatActivity() {
 
   companion object {
@@ -40,9 +43,47 @@ internal class RedirectActivity : AppCompatActivity() {
   override fun onNewIntent(newIntent: Intent?) {
     super.onNewIntent(newIntent)
 
-    val result = guardPostAuth?.getSignedInUser(newIntent?.data)
-
     val resultIntent = Intent()
+
+    val sendFailureResult = { intent: Intent ->
+      resultIntent.putExtra(EXTRA_RESULT, GuardpostAuth.AuthError.INVALID_RESPONSE)
+      setResult(Activity.RESULT_CANCELED, intent)
+      finish()
+    }
+
+    if (newIntent == null) {
+      sendFailureResult(resultIntent)
+      return
+    }
+
+    val intentData = newIntent.data
+
+    if (intentData == null) {
+      sendFailureResult(resultIntent)
+      return
+    }
+
+    if (GuardpostAuth.didLogout(this, intentData)) {
+      handleLogoutResult()
+    }
+
+    if (GuardpostAuth.didLogin(this, intentData)) {
+      handleLoginResult(intentData)
+    }
+  }
+
+  private fun handleLogoutResult() {
+    val resultIntent = Intent().apply {
+      putExtra(EXTRA_RESULT, true)
+    }
+    setResult(Activity.RESULT_OK, resultIntent)
+    finish()
+    return
+  }
+
+  private fun handleLoginResult(data: Uri) {
+    val resultIntent = Intent()
+    val result = guardPostAuth?.getSignedInUser(data)
 
     if (result is Result.Success<*>) {
       resultIntent.putExtra(EXTRA_RESULT, (result.result as SSOUser))

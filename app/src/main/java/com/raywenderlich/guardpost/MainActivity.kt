@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
       data?.let {
         textView.text = GuardpostAuth.getUser(it).toString()
       }
+    } else {
+      // handle error
     }
   }
 }
