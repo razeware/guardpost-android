@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.raywenderlich.guardpost">
+
+  <application>
+    <activity
+      android:name=".RedirectActivity"
+      android:launchMode="singleInstance">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+          android:host="@string/redirect_host"
+          android:path="@string/redirect_path"
+          android:scheme="@string/redirect_scheme" />
+      </intent-filter>
+    </activity>
+  </application>
+
+</manifest>

@@ -1,0 +1,2 @@
+include ':app', ':guardpost'
+rootProject.name = 'Guardpost-Android'
