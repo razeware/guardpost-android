@@ -27,8 +27,10 @@ class MainActivity : AppCompatActivity() {
       GuardpostAuth.startLogout(this)
     }
 
-    localBroadcastManager.registerReceiver(guardpostAuthReceiver,
-        GuardpostAuth.BroadcastActions.INTENT_FILTER)
+    localBroadcastManager.registerReceiver(
+      guardpostAuthReceiver,
+      GuardpostAuth.BroadcastActions.INTENT_FILTER
+    )
   }
 
   val guardpostAuthReceiver = GuardpostAuthReceiver({

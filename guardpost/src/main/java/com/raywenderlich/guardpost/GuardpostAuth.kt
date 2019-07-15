@@ -1,6 +1,5 @@
 package com.raywenderlich.guardpost
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -17,21 +16,21 @@ object GuardpostAuth {
   private var nonce: String = ""
   private var clientApiKey: String = ""
 
-  fun startLogout(context: Activity) {
+  fun startLogout(context: Context) {
     val baseEndpoint = context.getString(R.string.base_url)
     val redirectUrl = getRedirectUrlLogout(context)
 
     val logoutPath = context.getString(R.string.path_logout)
     val ssoRequest = SSORequest(
-        "$baseEndpoint$logoutPath",
-        redirectUrl
+      "$baseEndpoint$logoutPath",
+      redirectUrl
     )
 
     val logoutUri: Uri = ssoRequest.buildLogoutUri() ?: return
     launchCustomTab(context, logoutUri)
   }
 
-  private fun launchCustomTab(context: Activity, uri: Uri) {
+  private fun launchCustomTab(context: Context, uri: Uri) {
     val builder = CustomTabsIntent.Builder()
     builder.setShowTitle(true)
     builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary))
@@ -63,12 +62,12 @@ object GuardpostAuth {
   }
 
   internal fun didLogin(context: Context, data: Uri): Boolean =
-      data.toString().contains(getRedirectUrl(context))
+    data.toString().contains(getRedirectUrl(context))
 
   internal fun didLogout(context: Context, data: Uri): Boolean =
-      data.toString().contains(getRedirectUrlLogout(context))
+    data.toString().contains(getRedirectUrlLogout(context))
 
-  fun startLogin(context: Activity, clientApiKey: String, nonce: String): Boolean {
+  fun startLogin(context: Context, clientApiKey: String, nonce: String): Boolean {
 
     if (clientApiKey.isBlank() || nonce.isBlank()) {
       return false
@@ -82,19 +81,19 @@ object GuardpostAuth {
 
     val loginPath = context.getString(R.string.path_login)
     val ssoRequest = SSORequest(
-        "$baseEndpoint$loginPath",
-        redirectUrl,
-        nonce
+      "$baseEndpoint$loginPath",
+      redirectUrl,
+      nonce
     )
 
     val loginUri: Uri = ssoRequest.buildLoginUri(clientApiKey)
-        ?: return false
+      ?: return false
 
     launchCustomTab(context, loginUri)
     return true
   }
 
-  fun getSignedInUser(uri: Uri): SSOUser? {
+  internal fun getSignedInUser(uri: Uri): SSOUser? {
     val ssoResponse = SSOResponse(uri)
 
     if (!ssoResponse.isValid(clientApiKey, nonce)) {
@@ -107,7 +106,7 @@ object GuardpostAuth {
   /**
    * Auth Error Constants
    */
-  object AuthErrors {
+  internal object AuthErrors {
 
     /**
      * API has sent an invalid response
@@ -123,19 +122,19 @@ object GuardpostAuth {
     /**
      * Login success action
      */
-    const val LOGIN_SUCCESS: String = "action_login_success"
+    internal const val LOGIN_SUCCESS: String = "action_login_success"
 
     /**
      * Login failure action
      */
-    const val LOGIN_FAILURE: String = "action_login_failure"
+    internal const val LOGIN_FAILURE: String = "action_login_failure"
 
     /**
      * Logout action
      */
-    const val LOGOUT_SUCCESS: String = "action_logout_success"
+    internal const val LOGOUT_SUCCESS: String = "action_logout_success"
 
-    const val FAILURE: String = "action_failure"
+    internal const val FAILURE: String = "action_failure"
 
     val INTENT_FILTER: IntentFilter = IntentFilter().apply {
       addAction(LOGIN_SUCCESS)
