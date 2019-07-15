@@ -8,9 +8,9 @@ import com.raywenderlich.guardpost.utils.toHmacSha256
  * Helper object for working with SSO response
  */
 internal data class SSOResponse(
-  private val responseUri: Uri?,
-  private val sso: String? = responseUri?.getQueryParameter("sso"),
-  private val sig: String? = responseUri?.getQueryParameter("sig")
+    private val responseUri: Uri?,
+    private val sso: String? = responseUri?.getQueryParameter("sso"),
+    private val sig: String? = responseUri?.getQueryParameter("sig")
 ) {
 
   private lateinit var resultUri: Uri

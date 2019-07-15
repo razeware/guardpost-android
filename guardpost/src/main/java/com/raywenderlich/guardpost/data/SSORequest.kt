@@ -9,9 +9,9 @@ import com.raywenderlich.guardpost.utils.toHmacSha256
  * Helper object for creating SSO request
  */
 internal data class SSORequest(
-  private val endpoint: String,
-  private val callbackUrl: String,
-  private val nonce: String = randomString()
+    private val endpoint: String,
+    private val callbackUrl: String,
+    private val nonce: String = randomString()
 ) {
 
   /**
@@ -25,10 +25,10 @@ internal data class SSORequest(
     val unsignedPayload = buildUnSignedPayload() ?: return null
 
     return Uri.Builder().path(endpoint)
-      .scheme("https")
-      .appendQueryParameter("sso", unsignedPayload.toBase64())
-      .appendQueryParameter("sig", unsignedPayload.toBase64().toHmacSha256(secret))
-      .build()
+        .scheme("https")
+        .appendQueryParameter("sso", unsignedPayload.toBase64())
+        .appendQueryParameter("sig", unsignedPayload.toBase64().toHmacSha256(secret))
+        .build()
   }
 
   /**
@@ -38,14 +38,14 @@ internal data class SSORequest(
    */
   fun buildLogoutUri(): Uri? {
     return Uri.Builder().path(endpoint)
-      .scheme("https")
-      .appendQueryParameter("redirect_uri", callbackUrl)
-      .build()
+        .scheme("https")
+        .appendQueryParameter("redirect_uri", callbackUrl)
+        .build()
   }
 
   private fun buildUnSignedPayload(): String? = Uri.Builder()
-    .appendQueryParameter("callback_url", callbackUrl)
-    .appendQueryParameter("nonce", nonce)
-    .build()
-    .query
+      .appendQueryParameter("callback_url", callbackUrl)
+      .appendQueryParameter("nonce", nonce)
+      .build()
+      .query
 }
