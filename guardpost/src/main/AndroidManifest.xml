@@ -5,7 +5,8 @@
   <application>
     <activity
       android:name=".RedirectActivity"
-      android:launchMode="singleInstance">
+      android:launchMode="singleTask"
+      android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
 

@@ -1,13 +1,16 @@
 package com.raywenderlich.guardpost
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.raywenderlich.guardpost.utils.randomString
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+  private val localBroadcastManager by lazy(LazyThreadSafetyMode.NONE) {
+    LocalBroadcastManager.getInstance(this)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -17,31 +20,22 @@ class MainActivity : AppCompatActivity() {
     val nonce = randomString()
 
     login.setOnClickListener {
-      startActivityForResult(
-          GuardpostAuth.getLoginIntent(
-              this@MainActivity,
-              nonce, clientApiKey
-          ), 1
-      )
+      GuardpostAuth.startLogin(this, clientApiKey, nonce)
     }
 
     logout.setOnClickListener {
-      startActivityForResult(
-          GuardpostAuth.getLogoutIntent(
-              this@MainActivity
-          ), 1
-      )
+      GuardpostAuth.startLogout(this)
     }
+
+    localBroadcastManager.registerReceiver(guardpostAuthReceiver,
+        GuardpostAuth.BroadcastActions.INTENT_FILTER)
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-      data?.let {
-        textView.text = GuardpostAuth.getUser(it).toString()
-      }
-    } else {
-      // handle error
-    }
-  }
+  val guardpostAuthReceiver = GuardpostAuthReceiver({
+    textView.text = it.toString()
+  }, {
+    textView.text = "Logged out!"
+  }, {
+    textView.text = it.toString()
+  })
 }
