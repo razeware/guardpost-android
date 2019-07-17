@@ -2,6 +2,7 @@ package com.raywenderlich.guardpost
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.raywenderlich.guardpost.utils.randomString
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,17 +28,15 @@ class MainActivity : AppCompatActivity() {
       GuardpostAuth.startLogout(this)
     }
 
+    val guardpostAuthReceiver = GuardpostAuthReceiver()
+
+    guardpostAuthReceiver.login.observe(this, Observer {
+      textView.text = it.toString()
+    })
+
     localBroadcastManager.registerReceiver(
       guardpostAuthReceiver,
       GuardpostAuth.BroadcastActions.INTENT_FILTER
     )
   }
-
-  val guardpostAuthReceiver = GuardpostAuthReceiver({
-    textView.text = it.toString()
-  }, {
-    textView.text = "Logged out!"
-  }, {
-    textView.text = it.toString()
-  })
 }
