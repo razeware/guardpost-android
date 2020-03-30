@@ -1,9 +1,12 @@
 <resources>
-  <string name="base_url">accounts.raywenderlich.com/v2/sso/</string>
-  <string name="path_login">login</string>
-  <string name="path_logout">logout</string>
+  <public name="app_name" type="string" />
+  <string name="app_name">raywenderlich</string>
+  <string name="base_url">accounts.raywenderlich.com</string>
+  <string name="path_login">v2/sso/login</string>
+  <string name="path_logout">v2/sso/logout</string>
   <string name="redirect_host">emitron</string>
   <string name="redirect_path">/login</string>
   <string name="redirect_path_logout">/logout</string>
   <string name="redirect_scheme">rw</string>
+
 </resources>
