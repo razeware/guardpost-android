@@ -22,7 +22,8 @@ object GuardpostAuth {
 
     val logoutPath = context.getString(R.string.path_logout)
     val ssoRequest = SSORequest(
-      "$baseEndpoint$logoutPath",
+      baseEndpoint,
+      logoutPath,
       redirectUrl
     )
 
@@ -81,7 +82,8 @@ object GuardpostAuth {
 
     val loginPath = context.getString(R.string.path_login)
     val ssoRequest = SSORequest(
-      "$baseEndpoint$loginPath",
+      baseEndpoint,
+      loginPath,
       redirectUrl,
       nonce
     )

@@ -9,7 +9,8 @@ import com.raywenderlich.guardpost.utils.toHmacSha256
  * Helper object for creating SSO request
  */
 internal data class SSORequest(
-  private val endpoint: String,
+  private val domain: String,
+  private val path: String,
   private val callbackUrl: String,
   private val nonce: String = randomString()
 ) {
@@ -24,7 +25,8 @@ internal data class SSORequest(
   fun buildLoginUri(secret: String): Uri? {
     val unsignedPayload = buildUnSignedPayload() ?: return null
 
-    return Uri.Builder().path(endpoint)
+    return Uri.Builder().authority(domain)
+      .path(path)
       .scheme("https")
       .appendQueryParameter("sso", unsignedPayload.toBase64())
       .appendQueryParameter("sig", unsignedPayload.toBase64().toHmacSha256(secret))
@@ -37,7 +39,8 @@ internal data class SSORequest(
    * @return Generated URI or null
    */
   fun buildLogoutUri(): Uri? {
-    return Uri.Builder().path(endpoint)
+    return Uri.Builder().authority(domain)
+      .path(path)
       .scheme("https")
       .appendQueryParameter("redirect_uri", callbackUrl)
       .build()
