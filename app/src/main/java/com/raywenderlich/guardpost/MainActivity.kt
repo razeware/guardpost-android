@@ -2,7 +2,6 @@ package com.raywenderlich.guardpost
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.raywenderlich.guardpost.databinding.ActivityMainBinding
 import com.raywenderlich.guardpost.utils.randomString
@@ -33,9 +32,9 @@ class MainActivity : AppCompatActivity() {
 
     val guardpostAuthReceiver = GuardpostAuthReceiver()
 
-    guardpostAuthReceiver.login.observe(this, Observer {
+    guardpostAuthReceiver.login.observe(this) {
       activityMainBinding.textView.text = it.toString()
-    })
+    }
 
     localBroadcastManager.registerReceiver(
       guardpostAuthReceiver,
