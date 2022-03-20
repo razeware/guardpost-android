@@ -14,6 +14,7 @@
 
     <activity-alias
       android:name=".LauncherAlias"
+      android:exported="true"
       android:targetActivity=".MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
