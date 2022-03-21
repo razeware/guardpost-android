@@ -3,6 +3,7 @@ package com.raywenderlich.guardpost
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.raywenderlich.guardpost.databinding.ActivityMainBinding
 import com.raywenderlich.guardpost.utils.randomString
 
@@ -33,7 +34,13 @@ class MainActivity : AppCompatActivity() {
     val guardpostAuthReceiver = GuardpostAuthReceiver()
 
     guardpostAuthReceiver.login.observe(this) {
+      FirebaseCrashlytics.getInstance().recordException(Throwable(it.toString()))
       activityMainBinding.textView.text = it.toString()
+    }
+
+    guardpostAuthReceiver.error.observe(this) {
+      activityMainBinding.textView.text = it.toString()
+      FirebaseCrashlytics.getInstance().recordException(Throwable("Error: $it"))
     }
 
     localBroadcastManager.registerReceiver(

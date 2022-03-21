@@ -8,6 +8,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.raywenderlich.guardpost.data.SSORequest
 import com.raywenderlich.guardpost.data.SSOResponse
 import com.raywenderlich.guardpost.data.SSOUser
@@ -45,6 +46,7 @@ object GuardpostAuth {
     customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
     customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
+    FirebaseCrashlytics.getInstance().recordException(Throwable(uri.toString()))
     customTabsIntent.launchUrl(context, uri)
   }
 

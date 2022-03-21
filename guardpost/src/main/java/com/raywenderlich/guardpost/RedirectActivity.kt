@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.raywenderlich.guardpost.data.SSOUser
 
 @SuppressLint("GoogleAppIndexingApiWarning")
@@ -23,10 +24,12 @@ internal class RedirectActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_redirect)
     getResultIntent(intent)
+    FirebaseCrashlytics.getInstance().recordException(Throwable("OnCreate Intent: ${intent.extras}"))
   }
 
   override fun onNewIntent(intent: Intent?) {
     super.onNewIntent(intent)
+    FirebaseCrashlytics.getInstance().recordException(Throwable("New Intent: ${intent?.extras}"))
     setIntent(intent)
     getResultIntent(intent)
   }
@@ -56,7 +59,9 @@ internal class RedirectActivity : AppCompatActivity() {
     }
 
     if (GuardpostAuth.didLogin(this, intentData)) {
+      FirebaseCrashlytics.getInstance().recordException(Throwable("Success Login: $intentData"))
       resultIntent = handleLoginResult(intentData)
+      FirebaseCrashlytics.getInstance().recordException(Throwable("Login Result: $resultIntent"))
     }
 
     localBroadcastManager.sendBroadcast(resultIntent)
