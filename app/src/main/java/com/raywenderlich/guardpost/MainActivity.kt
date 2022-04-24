@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     val guardpostAuthReceiver = GuardpostAuthReceiver()
 
     guardpostAuthReceiver.login.observe(this) {
-      FirebaseCrashlytics.getInstance().recordException(Throwable(it.toString()))
       activityMainBinding.textView.text = it.toString()
     }
 

@@ -24,7 +24,8 @@ internal class RedirectActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_redirect)
     getResultIntent(intent)
-    FirebaseCrashlytics.getInstance().recordException(Throwable("OnCreate Intent: ${intent.extras}"))
+    FirebaseCrashlytics.getInstance()
+      .recordException(Throwable("OnCreate Intent: ${intent.extras}"))
   }
 
   override fun onNewIntent(intent: Intent?) {
