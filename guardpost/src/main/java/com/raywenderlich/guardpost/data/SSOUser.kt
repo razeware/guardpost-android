@@ -2,7 +2,7 @@ package com.raywenderlich.guardpost.data
 
 import android.net.Uri
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Helper object for logged in User details
